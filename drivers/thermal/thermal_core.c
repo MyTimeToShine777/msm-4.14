@@ -1663,7 +1663,7 @@ static ssize_t
 thermal_boost_show(struct device *dev,
 				      struct device_attribute *attr, char *buf)
 {
-	return snprintf(buf, PAGE_SIZE, boost_buf);
+	return snprintf(buf, 128, boost_buf);
 }
 
 static ssize_t
