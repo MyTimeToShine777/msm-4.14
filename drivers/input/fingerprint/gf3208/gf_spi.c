@@ -274,6 +274,7 @@ static int gfspi_ioctl_clk_uninit(struct gf_dev *data)
 }
 #endif
 
+#ifdef GOODIX_GESTURE_SWITCH
 static void nav_event_input(struct gf_dev *gf_dev, gf_nav_event_t nav_event)
 {
 	uint32_t nav_input = 0;
@@ -340,6 +341,7 @@ static void nav_event_input(struct gf_dev *gf_dev, gf_nav_event_t nav_event)
 		input_sync(gf_dev->input);
 	}
 }
+#endif
 
 static irqreturn_t gf_irq(int irq, void *handle)
 {
@@ -435,7 +437,7 @@ static long gf_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		gf_hw_reset(gf_dev, 3);
 		break;
 
-#if defined(SUPPORT_NAV_EVENT)
+#ifdef GOODIX_GESTURE_SWITCH
 	case GF_IOC_NAV_EVENT:
 		pr_debug("%s GF_IOC_NAV_EVENT\n", __func__);
 		if (copy_from_user(&nav_event, (void __user *)arg, sizeof(gf_nav_event_t))) {
