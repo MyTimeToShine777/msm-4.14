@@ -4,15 +4,12 @@
 # Copyright (C) 2020-2021 Adithya R.
 
 SECONDS=0 # builtin bash timer
-ZIPNAME="perf-surya-$(date '+%Y%m%d-%H%M').zip"
+HEAD=$(git rev-parse --verify HEAD 2>/dev/null)
+VERSION=$(echo $HEAD | cut -c1-4)
+ZIPNAME=DragonHeart-surya-v"${VERSION}"
 TC_DIR="$(pwd)/tc/clang-r498229"
 AK3_DIR="$(pwd)/android/AnyKernel3"
 DEFCONFIG="surya_defconfig"
-
-if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
-   head=$(git rev-parse --verify HEAD 2>/dev/null); then
-	ZIPNAME="${ZIPNAME::-4}-$(echo $head | cut -c1-8).zip"
-fi
 
 export PATH="$TC_DIR/bin:$PATH"
 
@@ -56,14 +53,14 @@ if [ -f "$kernel" ] && [ -f "$dtb" ] && [ -f "$dtbo" ]; then
 	echo -e "\nKernel compiled succesfully! Zipping up...\n"
 	if [ -d "$AK3_DIR" ]; then
 		cp -r $AK3_DIR AnyKernel3
-	elif ! git clone -q https://github.com/rd-stuffs/AnyKernel3 -b master; then
+	elif ! git clone -q https://github.com/rd-stuffs/AnyKernel3 -b DragonHeart; then
 		echo -e "\nAnyKernel3 repo not found locally and couldn't clone from GitHub! Aborting..."
 		exit 1
 	fi
 	cp $kernel $dtb $dtbo AnyKernel3
 	rm -rf out/arch/arm64/boot
 	cd AnyKernel3
-	git checkout master &> /dev/null
+	git checkout DragonHeart &> /dev/null
 	zip -r9 "../$ZIPNAME" * -x .git README.md *placeholder
 	cd ..
 	rm -rf AnyKernel3
