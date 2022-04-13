@@ -11,6 +11,9 @@ obj-$(CONFIG_BLOCK) := bio.o elevator.o blk-core.o blk-tag.o blk-sysfs.o \
 			genhd.o partition-generic.o ioprio.o \
 			badblocks.o partitions/
 
+ccflags-y += -mllvm -inline-threshold=15000
+ccflags-y += -mllvm -inlinehint-threshold=10000
+
 CFLAGS_blk-mq.o := $(call cc-disable-warning, align-mismatch)
 
 obj-$(CONFIG_BOUNCE)		+= bounce.o
