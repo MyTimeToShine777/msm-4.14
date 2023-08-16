@@ -1,4 +1,4 @@
-name: Compilation
+name: Build Kernel
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         run: |
           HEAD="$(git rev-parse HEAD)"
           COMMIT_POINT="$(git log --pretty=format:'%h: %s' -1)"
-          HEAD_COMMIT="https://github.com/rd-stuffs/android_kernel_xiaomi_surya/commit/$HEAD"
+          HEAD_COMMIT="https://github.com/rd-stuffs/msm-4.14/commit/$HEAD"
           echo "COMMIT_POINT=${COMMIT_POINT}" >> $GITHUB_ENV
           echo "HEAD_COMMIT=${HEAD_COMMIT}" >> $GITHUB_ENV
 
